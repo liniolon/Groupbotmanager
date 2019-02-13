@@ -4,67 +4,176 @@ from telepot.loop import MessageLoop
 from telepot.namedtuple import ReplyKeyboardMarkup
 # ---------- Other --------------#
 from time import sleep
+import markdown
+from bs4 import BeautifulSoup
 
 TOKEN = '700990289:AAFdUv3DIc1BPE2bmSE_zXTR1W3H3VAwtPY'
 bot = telepot.Bot(TOKEN)
 
+help = markdown.markdown(open('./responses/help.md', encoding='utf8').read())
+link = markdown.markdown(open('./responses/link.md', encoding='utf8').read())
+rules = markdown.markdown(open('./responses/rules.md', encoding='utf8').read())
+ask = markdown.markdown(open('./responses/answers/ask.md', encoding='utf8').read())
+bitcoin = markdown.markdown(open('./responses/answers/bitcoin.md', encoding='utf8').read())
+botinfo = markdown.markdown(open('./responses/answers/botinfo.md', encoding='utf8').read())
+farsi = markdown.markdown(open('./responses/answers/farsi.md', encoding="utf8").read())
+flood = markdown.markdown(open('./responses/answers/flood.md', encoding='utf8').read())
+free = markdown.markdown(open('./responses/answers/free.md', encoding='utf8').read())
+grub = markdown.markdown(open('./responses/answers/grub.md', encoding='utf8').read())
+hacker = markdown.markdown(open('./responses/answers/hacker.md', encoding="utf8").read())
+help_1 = markdown.markdown(open('./responses/answers/help.md', encoding='utf8').read())
+kali = markdown.markdown(open('./responses/answers/kali.md', encoding="utf8").read())
+lamp = markdown.markdown(open('./responses/answers/lamp.md', encoding='utf8').read())
+link = markdown.markdown(open('./responses/answers/link.md', encoding='utf8').read())
+mahak = markdown.markdown(open('./responses/answers/mahak.md', encoding='utf8').read())
+searx = markdown.markdown(open('./responses/answers/searx.md', encoding='utf8').read())
+smart = markdown.markdown(open('./responses/answers/smart.md', encoding='utf8').read())
+tor = markdown.markdown(open('./responses/answers/tor.md', encoding='utf8').read())
+xampp = markdown.markdown(open('./responses/answers/xampp.md', encoding="utf8").read())
+
 def handle(msg):
     content_type = telepot.glance(msg)        
     if content_type[0] == 'text':
-
+        cmd = msg['text']
+        chat_id = msg['chat']['id']
+        msg_id = msg['message_id']
         try:
-            cmd = msg['text']
-            chat_id = msg['chat']['id']
-            msg_id = msg['message_id']
-            from_chat_id = msg['reply_to_message']['message_id']
-
-            print(msg)
+            from_msg_id = msg['reply_to_message']['message_id']
         except:
-            pass
+            from_msg_id = None
 
         if cmd=='/start':
             bot.sendMessage(chat_id, "ربات مدیریت گروه\n\n\nلایسنس: AGPLv3")
         
         if cmd=='id':
-            bot.sendMessage(chat_id, "آی‌دی تلگرام شما: {}".format(chat_id))
+            bot.sendMessage(chat_id, "شناسه‌ی تلگرامی شما {} است".format(chat_id))
 
         if cmd=='ping':
-            bot.sendMessage(chat_id, "pong")
+            bot.sendMessage(chat_id, "PING-PONG :D")
 
-        if cmd=='join':
-            bot.sendMessage(chat_id, "گروه کاربران ایرانی اوبونتو بدلیل تمرکز بیشتر بر روی انجمن و ویکی اوبونتو بسته شد. در صورتی که تصمیم به باز کردن دوبارهٔ گروه بگیریم، این موضوع را توسط انجمن با شما به اشتراک خواهیم گذاشت 🙂")
+        if cmd=='help' and from_msg_id is None:
+            bot.sendMessage(chat_id, "".join(BeautifulSoup(help).findAll(text=True)), reply_to_message_id=msg_id)
 
-        if cmd=='rules':
-            bot.sendMessage(chat_id, "* لطفا توجه فرمایید که قوانین انجمن فارسی اوبونتو در این گروه نیز صادق می‌باشند.\n* زبان رسمی گروه فارسی می‌باشد. لطفا تنها با حروف فارسی بنویسید.\n* فرستادن لینک دعوت به گروه‌ها یا کانال‌های دیگر تلگرام در گروه، مستقیما موجب حذف شما از گروه خواهد شد.\n* لطفا متون طولانی را در سایت‌هایی مانند paste.ubuntu.ir قرار داده و تنها لینک آن‌ها را در گروه قرار دهید.\n\n* قوانین انجمن: https://ubuntu.ir/rules")
-        
-        if cmd=='link':
-            bot.sendMessage(chat_id, "https://ubuntu.ir/telegram")
+        if cmd=='help' and from_msg_id is not None:
+            bot.sendMessage(chat_id, "".join(BeautifulSoup(help).findAll(text=True)), reply_to_message_id=from_msg_id)
 
-        if cmd=='!free':
-            bot.sendMessage(chat_id, "https://wiki.ubuntu.ir/wiki/Free\_software", reply_to_message_id=from_chat_id)
+        if cmd=='link' and from_msg_id is None:
+           bot.sendMessage(chat_id, "".join(BeautifulSoup(link).findAll(text=True)), reply_to_message_id=msg_id)
 
-        if cmd=='!kali':
-            bot.sendMessage(chat_id, "لطفا از یک توزیع معقول مثل اوبونتو (ubuntu) استفاده کنید", reply_to_message_id=msg_id)
+        if cmd=='link' and from_msg_id is not None:
+           bot.sendMessage(chat_id, "".join(BeautifulSoup(link).findAll(text=True)), reply_to_message_id=from_msg_id)
+       
+        if cmd=='rules' and from_msg_id is None:
+           bot.sendMessage(chat_id, "".join(BeautifulSoup(rules).findAll(text=True)), reply_to_message_id=msg_id)
 
-        if cmd=='!flood':
-            bot.sendMessage(chat_id, "لطفا از پخش کردن مطلب خود در چندین پست خودداری کرده و مطلب خود را مستقیما در یک پست بنویسید :)", reply_to_message_id=from_chat_id)
+        if cmd=='rules' and from_msg_id is not None:
+           bot.sendMessage(chat_id, "".join(BeautifulSoup(rules).findAll(text=True)), reply_to_message_id=from_msg_id)
+       
+        if cmd=='!ask' and from_msg_id is None:
+           bot.sendMessage(chat_id, "".join(BeautifulSoup(ask).findAll(text=True)), reply_to_message_id=msg_id)
 
-        if cmd=='!mahak':
-            bot.sendMessage(chat_id, "https://mahak-charity.org/main/index.php/fa/about-mahak/payments", reply_to_message_id=msg_id)
+        if cmd=='!ask' and from_msg_id is not None:
+           bot.sendMessage(chat_id, "".join(BeautifulSoup(ask).findAll(text=True)), reply_to_message_id=from_msg_id)
+       
+        if cmd=='!bitcoin' and from_msg_id is None:
+           bot.sendMessage(chat_id, "".join(BeautifulSoup(bitcoin).findAll(text=True)), reply_to_message_id=msg_id)
 
-        if cmd=='!report':
-            bot.forwardMessage("451182363",chat_id, from_chat_id)
-            bot.deleteMessage(msg_id)
+        if cmd=='!bitcoin' and from_msg_id is not None:
+           bot.sendMessage(chat_id, "".join(BeautifulSoup(bitcoin).findAll(text=True)), reply_to_message_id=from_msg_id)
 
-        if cmd=='!ask':
-            bot.sendMessage(chat_id, "لطفا بجای اینکه بپرسید که بعد سوال اصلی خود را بپرسید، مستقیما سوال اصلی خود را بپرسید :)", reply_to_message_id=from_chat_id)
+        if cmd=='!botinfo' and from_msg_id is None:
+           bot.sendMessage(chat_id, "".join(BeautifulSoup(botinfo).findAll(text=True)), reply_to_message_id=msg_id)
 
-        if cmd=='!source':
-            bot.sendMessage(chat_id, "https://github.com/liniolon/Groupbotmanager", reply_to_message_id=from_chat_id)
+        if cmd=='!botinfo' and from_msg_id is not None:
+           bot.sendMessage(chat_id, "".join(BeautifulSoup(botinfo).findAll(text=True)), reply_to_message_id=from_msg_id)
 
+        if cmd=='!farsi' and from_msg_id is None:
+           bot.sendMessage(chat_id, "".join(BeautifulSoup(farsi).findAll(text=True)), reply_to_message_id=msg_id)
 
+        if cmd=='!farsi' and from_msg_id is not None:
+           bot.sendMessage(chat_id, "".join(BeautifulSoup(farsi).findAll(text=True)), reply_to_message_id=from_msg_id)
 
+        if cmd=='!flood' and from_msg_id is None:
+           bot.sendMessage(chat_id, "".join(BeautifulSoup(flood).findAll(text=True)), reply_to_message_id=msg_id)
 
+        if cmd=='!flood' and from_msg_id is not None:
+           bot.sendMessage(chat_id, "".join(BeautifulSoup(flood).findAll(text=True)), reply_to_message_id=from_msg_id)
+           
+        if cmd=='!free' and from_msg_id is None:
+           bot.sendMessage(chat_id, "".join(BeautifulSoup(free).findAll(text=True)), reply_to_message_id=msg_id)
+
+        if cmd=='!free' and from_msg_id is not None:
+           bot.sendMessage(chat_id, "".join(BeautifulSoup(free).findAll(text=True)), reply_to_message_id=from_msg_id)
+           
+        if cmd=='!grub' and from_msg_id is None:
+           bot.sendMessage(chat_id, "".join(BeautifulSoup(grub).findAll(text=True)), reply_to_message_id=msg_id)
+
+        if cmd=='!grub' and from_msg_id is not None:
+           bot.sendMessage(chat_id, "".join(BeautifulSoup(grub).findAll(text=True)), reply_to_message_id=from_msg_id)
+           
+        if cmd=='!hacker' and from_msg_id is None:
+           bot.sendMessage(chat_id, "".join(BeautifulSoup(hacker).findAll(text=True)), reply_to_message_id=msg_id)
+
+        if cmd=='!hacker' and from_msg_id is not None:
+           bot.sendMessage(chat_id, "".join(BeautifulSoup(hacker).findAll(text=True)), reply_to_message_id=from_msg_id)
+           
+        if cmd=='!help' and from_msg_id is None:
+           bot.sendMessage(chat_id, "".join(BeautifulSoup(help_1).findAll(text=True)), reply_to_message_id=msg_id)
+
+        if cmd=='!help' and from_msg_id is not None:
+           bot.sendMessage(chat_id, "".join(BeautifulSoup(help_1).findAll(text=True)), reply_to_message_id=from_msg_id)
+           
+        if cmd=='!kali' and from_msg_id is None:
+           bot.sendMessage(chat_id, "".join(BeautifulSoup(kali).findAll(text=True)), reply_to_message_id=msg_id)
+
+        if cmd=='!kali' and from_msg_id is not None:
+           bot.sendMessage(chat_id, "".join(BeautifulSoup(kali).findAll(text=True)), reply_to_message_id=from_msg_id)
+           
+        if cmd=='!lamp' and from_msg_id is None:
+           bot.sendMessage(chat_id, "".join(BeautifulSoup(lamp).findAll(text=True)), reply_to_message_id=msg_id)
+
+        if cmd=='!lamp' and from_msg_id is not None:
+           bot.sendMessage(chat_id, "".join(BeautifulSoup(lamp).findAll(text=True)), reply_to_message_id=from_msg_id)
+           
+        if cmd=='!link' and from_msg_id is None:
+           bot.sendMessage(chat_id, "".join(BeautifulSoup(link).findAll(text=True)), reply_to_message_id=msg_id)
+
+        if cmd=='!link' and from_msg_id is not None:
+           bot.sendMessage(chat_id, "".join(BeautifulSoup(link).findAll(text=True)), reply_to_message_id=from_msg_id)
+           
+        if cmd=='!mahak' and from_msg_id is None:
+           bot.sendMessage(chat_id, "".join(BeautifulSoup(mahak).findAll(text=True)), reply_to_message_id=msg_id)
+
+        if cmd=='!mahak' and from_msg_id is not None:
+           bot.sendMessage(chat_id, "".join(BeautifulSoup(mahak).findAll(text=True)), reply_to_message_id=from_msg_id)
+           
+        if cmd=='!searx' and from_msg_id is None:
+           bot.sendMessage(chat_id, "".join(BeautifulSoup(searx).findAll(text=True)), reply_to_message_id=msg_id)
+
+        if cmd=='!searx' and from_msg_id is not None:
+           bot.sendMessage(chat_id, "".join(BeautifulSoup(searx).findAll(text=True)), reply_to_message_id=from_msg_id)
+           
+        if cmd=='!smart' and from_msg_id is None:
+           bot.sendMessage(chat_id, "".join(BeautifulSoup(smart).findAll(text=True)), reply_to_message_id=msg_id)
+
+        if cmd=='!smart' and from_msg_id is not None:
+           bot.sendMessage(chat_id, "".join(BeautifulSoup(smart).findAll(text=True)), reply_to_message_id=from_msg_id)
+         
+        if cmd=='!tor' and from_msg_id is None:
+           bot.sendMessage(chat_id, "".join(BeautifulSoup(tor).findAll(text=True)), reply_to_message_id=msg_id)
+
+        if cmd=='!tor' and from_msg_id is not None:
+           bot.sendMessage(chat_id, "".join(BeautifulSoup(tor).findAll(text=True)), reply_to_message_id=from_msg_id)
+         
+        if cmd=='!xampp' and from_msg_id is None:
+           bot.sendMessage(chat_id, "".join(BeautifulSoup(xampp).findAll(text=True)), reply_to_message_id=msg_id)
+
+        if cmd=='!xampp' and from_msg_id is not None:
+           bot.sendMessage(chat_id, "".join(BeautifulSoup(xampp).findAll(text=True)), reply_to_message_id=from_msg_id)
+
+        if cmd=='!report' and from_msg_id is not None:
+            bot.forwardMessage(chat_id, "451182363", from_msg_id)
+            bot.deleteMessage((chat_id, from_msg_id))
 
 
 
