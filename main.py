@@ -7,7 +7,7 @@ from time import sleep
 import markdown
 from bs4 import BeautifulSoup
 
-TOKEN = ''
+TOKEN = 'BOT_TOKEN'
 bot = telepot.Bot(TOKEN)
 
 help = markdown.markdown(open('./responses/help.md', encoding='utf8').read())
@@ -172,8 +172,8 @@ def handle(msg):
            bot.sendMessage(chat_id, "".join(BeautifulSoup(xampp).findAll(text=True)), reply_to_message_id=from_msg_id)
 
         if cmd=='!report' and from_msg_id is not None:
-            bot.forwardMessage(chat_id, "", from_msg_id)
-            bot.deleteMessage((chat_id, from_msg_id))
+            bot.forwardMessage("ADMIN_TELEGRAM_ID", chat_id,from_msg_id)
+            bot.deleteMessage((chat_id, msg_id))
 
 
 
