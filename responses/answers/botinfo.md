@@ -1,5 +1,3 @@
-این ربات بصورت آزاد تحت لایسنس _AGPL_ توسعه داده شده و سورس آن در آدرس زیر در دسترس است.
-
-[لینک منبع](https://github.com/amin3mej/telegram-observer-bot)
-
-برای حمایت مالی از این پروژه می‌توانید از طریق [این لینک](https://mahak-charity.org/main/index.php/fa/about-mahak/payments) به مبلغ دلخواه خود اقدام کنید.
+این ربات تحت لایسنس AGPL توسعه داده شده
+لینک ربات: https://github.com/liniolon/Groupbotmanager
+برای حمایت از ربات به سازمان محک می‌توانید کمک کنید: https://mahak-charity.org/main/index.php/fa/about-mahak/payments
