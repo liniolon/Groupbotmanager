@@ -4,11 +4,16 @@ from telepot.loop import MessageLoop
 from telepot.namedtuple import ReplyKeyboardMarkup
 # ---------- Other --------------#
 from time import sleep
-import markdown
+import markdown, logging
 from bs4 import BeautifulSoup
 
-TOKEN = 'BOT_TOKEN'
+TOKEN = '700990289:AAFdUv3DIc1BPE2bmSE_zXTR1W3H3VAwtPY'
 bot = telepot.Bot(TOKEN)
+
+#Logging
+log_location = 'bot.log' #Loction of log file.
+logging.basicConfig(filename=log_location ,format='%(asctime)s - %(name)s - %(message)s', level=logging.INFO)
+
 
 help = markdown.markdown(open('./responses/help.md', encoding='utf8').read())
 link = markdown.markdown(open('./responses/link.md', encoding='utf8').read())
@@ -32,147 +37,150 @@ tor = markdown.markdown(open('./responses/answers/tor.md', encoding='utf8').read
 xampp = markdown.markdown(open('./responses/answers/xampp.md', encoding="utf8").read())
 
 def handle(msg):
-    content_type = telepot.glance(msg)        
-    if content_type[0] == 'text':
-        cmd = msg['text']
-        chat_id = msg['chat']['id']
-        msg_id = msg['message_id']
-        try:
+      content_type = telepot.glance(msg)        
+      if content_type[0] == 'text':
+         cmd = msg['text']
+         chat_id = msg['chat']['id']
+         msg_id = msg['message_id']
+         try:
             from_msg_id = msg['reply_to_message']['message_id']
-        except:
+         except:
             from_msg_id = None
 
-        if cmd=='/start':
+         if cmd=='/start':
             bot.sendMessage(chat_id, "ربات مدیریت گروه\n\n\nلایسنس: AGPLv3")
-        
-        if cmd=='id':
+         
+         if cmd=='id':
             bot.sendMessage(chat_id, "شناسه‌ی تلگرامی شما {} است".format(chat_id))
 
-        if cmd=='ping':
+         if cmd=='ping':
             bot.sendMessage(chat_id, "PING-PONG :D")
 
-        if cmd=='help' and from_msg_id is None:
+         if cmd=='help' and from_msg_id is None:
             bot.sendMessage(chat_id, "".join(BeautifulSoup(help).findAll(text=True)), reply_to_message_id=msg_id)
 
-        if cmd=='help' and from_msg_id is not None:
+         if cmd=='help' and from_msg_id is not None:
             bot.sendMessage(chat_id, "".join(BeautifulSoup(help).findAll(text=True)), reply_to_message_id=from_msg_id)
 
-        if cmd=='link' and from_msg_id is None:
-           bot.sendMessage(chat_id, "".join(BeautifulSoup(link).findAll(text=True)), reply_to_message_id=msg_id)
+         if cmd=='link' and from_msg_id is None:
+            bot.sendMessage(chat_id, "".join(BeautifulSoup(link).findAll(text=True)), reply_to_message_id=msg_id)
 
-        if cmd=='link' and from_msg_id is not None:
-           bot.sendMessage(chat_id, "".join(BeautifulSoup(link).findAll(text=True)), reply_to_message_id=from_msg_id)
-       
-        if cmd=='rules' and from_msg_id is None:
-           bot.sendMessage(chat_id, "".join(BeautifulSoup(rules).findAll(text=True)), reply_to_message_id=msg_id)
-
-        if cmd=='rules' and from_msg_id is not None:
-           bot.sendMessage(chat_id, "".join(BeautifulSoup(rules).findAll(text=True)), reply_to_message_id=from_msg_id)
-       
-        if cmd=='!ask' and from_msg_id is None:
-           bot.sendMessage(chat_id, "".join(BeautifulSoup(ask).findAll(text=True)), reply_to_message_id=msg_id)
-
-        if cmd=='!ask' and from_msg_id is not None:
-           bot.sendMessage(chat_id, "".join(BeautifulSoup(ask).findAll(text=True)), reply_to_message_id=from_msg_id)
-       
-        if cmd=='!bitcoin' and from_msg_id is None:
-           bot.sendMessage(chat_id, "".join(BeautifulSoup(bitcoin).findAll(text=True)), reply_to_message_id=msg_id)
-
-        if cmd=='!bitcoin' and from_msg_id is not None:
-           bot.sendMessage(chat_id, "".join(BeautifulSoup(bitcoin).findAll(text=True)), reply_to_message_id=from_msg_id)
-
-        if cmd=='!botinfo' and from_msg_id is None:
-           bot.sendMessage(chat_id, "".join(BeautifulSoup(botinfo).findAll(text=True)), reply_to_message_id=msg_id)
-
-        if cmd=='!botinfo' and from_msg_id is not None:
-           bot.sendMessage(chat_id, "".join(BeautifulSoup(botinfo).findAll(text=True)), reply_to_message_id=from_msg_id)
-
-        if cmd=='!farsi' and from_msg_id is None:
-           bot.sendMessage(chat_id, "".join(BeautifulSoup(farsi).findAll(text=True)), reply_to_message_id=msg_id)
-
-        if cmd=='!farsi' and from_msg_id is not None:
-           bot.sendMessage(chat_id, "".join(BeautifulSoup(farsi).findAll(text=True)), reply_to_message_id=from_msg_id)
-
-        if cmd=='!flood' and from_msg_id is None:
-           bot.sendMessage(chat_id, "".join(BeautifulSoup(flood).findAll(text=True)), reply_to_message_id=msg_id)
-
-        if cmd=='!flood' and from_msg_id is not None:
-           bot.sendMessage(chat_id, "".join(BeautifulSoup(flood).findAll(text=True)), reply_to_message_id=from_msg_id)
-           
-        if cmd=='!free' and from_msg_id is None:
-           bot.sendMessage(chat_id, "".join(BeautifulSoup(free).findAll(text=True)), reply_to_message_id=msg_id)
-
-        if cmd=='!free' and from_msg_id is not None:
-           bot.sendMessage(chat_id, "".join(BeautifulSoup(free).findAll(text=True)), reply_to_message_id=from_msg_id)
-           
-        if cmd=='!grub' and from_msg_id is None:
-           bot.sendMessage(chat_id, "".join(BeautifulSoup(grub).findAll(text=True)), reply_to_message_id=msg_id)
-
-        if cmd=='!grub' and from_msg_id is not None:
-           bot.sendMessage(chat_id, "".join(BeautifulSoup(grub).findAll(text=True)), reply_to_message_id=from_msg_id)
-           
-        if cmd=='!hacker' and from_msg_id is None:
-           bot.sendMessage(chat_id, "".join(BeautifulSoup(hacker).findAll(text=True)), reply_to_message_id=msg_id)
-
-        if cmd=='!hacker' and from_msg_id is not None:
-           bot.sendMessage(chat_id, "".join(BeautifulSoup(hacker).findAll(text=True)), reply_to_message_id=from_msg_id)
-           
-        if cmd=='!help' and from_msg_id is None:
-           bot.sendMessage(chat_id, "".join(BeautifulSoup(help_1).findAll(text=True)), reply_to_message_id=msg_id)
-
-        if cmd=='!help' and from_msg_id is not None:
-           bot.sendMessage(chat_id, "".join(BeautifulSoup(help_1).findAll(text=True)), reply_to_message_id=from_msg_id)
-           
-        if cmd=='!kali' and from_msg_id is None:
-           bot.sendMessage(chat_id, "".join(BeautifulSoup(kali).findAll(text=True)), reply_to_message_id=msg_id)
-
-        if cmd=='!kali' and from_msg_id is not None:
-           bot.sendMessage(chat_id, "".join(BeautifulSoup(kali).findAll(text=True)), reply_to_message_id=from_msg_id)
-           
-        if cmd=='!lamp' and from_msg_id is None:
-           bot.sendMessage(chat_id, "".join(BeautifulSoup(lamp).findAll(text=True)), reply_to_message_id=msg_id)
-
-        if cmd=='!lamp' and from_msg_id is not None:
-           bot.sendMessage(chat_id, "".join(BeautifulSoup(lamp).findAll(text=True)), reply_to_message_id=from_msg_id)
-           
-        if cmd=='!link' and from_msg_id is None:
-           bot.sendMessage(chat_id, "".join(BeautifulSoup(link).findAll(text=True)), reply_to_message_id=msg_id)
-
-        if cmd=='!link' and from_msg_id is not None:
-           bot.sendMessage(chat_id, "".join(BeautifulSoup(link).findAll(text=True)), reply_to_message_id=from_msg_id)
-           
-        if cmd=='!mahak' and from_msg_id is None:
-           bot.sendMessage(chat_id, "".join(BeautifulSoup(mahak).findAll(text=True)), reply_to_message_id=msg_id)
-
-        if cmd=='!mahak' and from_msg_id is not None:
-           bot.sendMessage(chat_id, "".join(BeautifulSoup(mahak).findAll(text=True)), reply_to_message_id=from_msg_id)
-           
-        if cmd=='!searx' and from_msg_id is None:
-           bot.sendMessage(chat_id, "".join(BeautifulSoup(searx).findAll(text=True)), reply_to_message_id=msg_id)
-
-        if cmd=='!searx' and from_msg_id is not None:
-           bot.sendMessage(chat_id, "".join(BeautifulSoup(searx).findAll(text=True)), reply_to_message_id=from_msg_id)
-           
-        if cmd=='!smart' and from_msg_id is None:
-           bot.sendMessage(chat_id, "".join(BeautifulSoup(smart).findAll(text=True)), reply_to_message_id=msg_id)
-
-        if cmd=='!smart' and from_msg_id is not None:
-           bot.sendMessage(chat_id, "".join(BeautifulSoup(smart).findAll(text=True)), reply_to_message_id=from_msg_id)
+         if cmd=='link' and from_msg_id is not None:
+            bot.sendMessage(chat_id, "".join(BeautifulSoup(link).findAll(text=True)), reply_to_message_id=from_msg_id)
          
-        if cmd=='!tor' and from_msg_id is None:
-           bot.sendMessage(chat_id, "".join(BeautifulSoup(tor).findAll(text=True)), reply_to_message_id=msg_id)
+         if cmd=='rules' and from_msg_id is None:
+            bot.sendMessage(chat_id, "".join(BeautifulSoup(rules).findAll(text=True)), reply_to_message_id=msg_id)
 
-        if cmd=='!tor' and from_msg_id is not None:
-           bot.sendMessage(chat_id, "".join(BeautifulSoup(tor).findAll(text=True)), reply_to_message_id=from_msg_id)
+         if cmd=='rules' and from_msg_id is not None:
+            bot.sendMessage(chat_id, "".join(BeautifulSoup(rules).findAll(text=True)), reply_to_message_id=from_msg_id)
          
-        if cmd=='!xampp' and from_msg_id is None:
-           bot.sendMessage(chat_id, "".join(BeautifulSoup(xampp).findAll(text=True)), reply_to_message_id=msg_id)
+         if cmd=='!ask' and from_msg_id is None:
+            bot.sendMessage(chat_id, "".join(BeautifulSoup(ask).findAll(text=True)), reply_to_message_id=msg_id)
 
-        if cmd=='!xampp' and from_msg_id is not None:
-           bot.sendMessage(chat_id, "".join(BeautifulSoup(xampp).findAll(text=True)), reply_to_message_id=from_msg_id)
+         if cmd=='!ask' and from_msg_id is not None:
+            bot.sendMessage(chat_id, "".join(BeautifulSoup(ask).findAll(text=True)), reply_to_message_id=from_msg_id)
+         
+         if cmd=='!bitcoin' and from_msg_id is None:
+            bot.sendMessage(chat_id, "".join(BeautifulSoup(bitcoin).findAll(text=True)), reply_to_message_id=msg_id)
 
-        if cmd=='!report' and from_msg_id is not None:
-            bot.forwardMessage("ADMIN_TELEGRAM_ID", chat_id,from_msg_id)
+         if cmd=='!bitcoin' and from_msg_id is not None:
+            bot.sendMessage(chat_id, "".join(BeautifulSoup(bitcoin).findAll(text=True)), reply_to_message_id=from_msg_id)
+
+         if cmd=='!botinfo' and from_msg_id is None:
+            bot.sendMessage(chat_id, "".join(BeautifulSoup(botinfo).findAll(text=True)), reply_to_message_id=msg_id)
+
+         if cmd=='!botinfo' and from_msg_id is not None:
+            bot.sendMessage(chat_id, "".join(BeautifulSoup(botinfo).findAll(text=True)), reply_to_message_id=from_msg_id)
+
+         if cmd=='!farsi' and from_msg_id is None:
+            bot.sendMessage(chat_id, "".join(BeautifulSoup(farsi).findAll(text=True)), reply_to_message_id=msg_id)
+
+         if cmd=='!farsi' and from_msg_id is not None:
+            bot.sendMessage(chat_id, "".join(BeautifulSoup(farsi).findAll(text=True)), reply_to_message_id=from_msg_id)
+
+         if cmd=='!flood' and from_msg_id is None:
+            bot.sendMessage(chat_id, "".join(BeautifulSoup(flood).findAll(text=True)), reply_to_message_id=msg_id)
+
+         if cmd=='!flood' and from_msg_id is not None:
+            bot.sendMessage(chat_id, "".join(BeautifulSoup(flood).findAll(text=True)), reply_to_message_id=from_msg_id)
+            
+         if cmd=='!free' and from_msg_id is None:
+            bot.sendMessage(chat_id, "".join(BeautifulSoup(free).findAll(text=True)), reply_to_message_id=msg_id)
+
+         if cmd=='!free' and from_msg_id is not None:
+            bot.sendMessage(chat_id, "".join(BeautifulSoup(free).findAll(text=True)), reply_to_message_id=from_msg_id)
+            
+         if cmd=='!grub' and from_msg_id is None:
+            bot.sendMessage(chat_id, "".join(BeautifulSoup(grub).findAll(text=True)), reply_to_message_id=msg_id)
+
+         if cmd=='!grub' and from_msg_id is not None:
+            bot.sendMessage(chat_id, "".join(BeautifulSoup(grub).findAll(text=True)), reply_to_message_id=from_msg_id)
+            
+         if cmd=='!hacker' and from_msg_id is None:
+            bot.sendMessage(chat_id, "".join(BeautifulSoup(hacker).findAll(text=True)), reply_to_message_id=msg_id)
+
+         if cmd=='!hacker' and from_msg_id is not None:
+            bot.sendMessage(chat_id, "".join(BeautifulSoup(hacker).findAll(text=True)), reply_to_message_id=from_msg_id)
+            
+         if cmd=='!help' and from_msg_id is None:
+            bot.sendMessage(chat_id, "".join(BeautifulSoup(help_1).findAll(text=True)), reply_to_message_id=msg_id)
+
+         if cmd=='!help' and from_msg_id is not None:
+            bot.sendMessage(chat_id, "".join(BeautifulSoup(help_1).findAll(text=True)), reply_to_message_id=from_msg_id)
+            
+         if cmd=='!kali' and from_msg_id is None:
+            bot.sendMessage(chat_id, "".join(BeautifulSoup(kali).findAll(text=True)), reply_to_message_id=msg_id)
+
+         if cmd=='!kali' and from_msg_id is not None:
+            bot.sendMessage(chat_id, "".join(BeautifulSoup(kali).findAll(text=True)), reply_to_message_id=from_msg_id)
+            
+         if cmd=='!lamp' and from_msg_id is None:
+            bot.sendMessage(chat_id, "".join(BeautifulSoup(lamp).findAll(text=True)), reply_to_message_id=msg_id)
+
+         if cmd=='!lamp' and from_msg_id is not None:
+            bot.sendMessage(chat_id, "".join(BeautifulSoup(lamp).findAll(text=True)), reply_to_message_id=from_msg_id)
+            
+         if cmd=='!link' and from_msg_id is None:
+            bot.sendMessage(chat_id, "".join(BeautifulSoup(link).findAll(text=True)), reply_to_message_id=msg_id)
+
+         if cmd=='!link' and from_msg_id is not None:
+            bot.sendMessage(chat_id, "".join(BeautifulSoup(link).findAll(text=True)), reply_to_message_id=from_msg_id)
+            
+         if cmd=='!mahak' and from_msg_id is None:
+            bot.sendMessage(chat_id, "".join(BeautifulSoup(mahak).findAll(text=True)), reply_to_message_id=msg_id)
+
+         if cmd=='!mahak' and from_msg_id is not None:
+            bot.sendMessage(chat_id, "".join(BeautifulSoup(mahak).findAll(text=True)), reply_to_message_id=from_msg_id)
+            
+         if cmd=='!searx' and from_msg_id is None:
+            bot.sendMessage(chat_id, "".join(BeautifulSoup(searx).findAll(text=True)), reply_to_message_id=msg_id)
+
+         if cmd=='!searx' and from_msg_id is not None:
+            bot.sendMessage(chat_id, "".join(BeautifulSoup(searx).findAll(text=True)), reply_to_message_id=from_msg_id)
+            
+         if cmd=='!smart' and from_msg_id is None:
+            bot.sendMessage(chat_id, "".join(BeautifulSoup(smart).findAll(text=True)), reply_to_message_id=msg_id)
+
+         if cmd=='!smart' and from_msg_id is not None:
+            bot.sendMessage(chat_id, "".join(BeautifulSoup(smart).findAll(text=True)), reply_to_message_id=from_msg_id)
+         
+         if cmd=='!tor' and from_msg_id is None:
+            bot.sendMessage(chat_id, "".join(BeautifulSoup(tor).findAll(text=True)), reply_to_message_id=msg_id)
+
+         if cmd=='!tor' and from_msg_id is not None:
+            bot.sendMessage(chat_id, "".join(BeautifulSoup(tor).findAll(text=True)), reply_to_message_id=from_msg_id)
+         
+         if cmd=='!xampp' and from_msg_id is None:
+            bot.sendMessage(chat_id, "".join(BeautifulSoup(xampp).findAll(text=True)), reply_to_message_id=msg_id)
+
+         if cmd=='!xampp' and from_msg_id is not None:
+            bot.sendMessage(chat_id, "".join(BeautifulSoup(xampp).findAll(text=True)), reply_to_message_id=from_msg_id)
+
+         if cmd.startswith("کسی") and cmd.endswith("کرده؟") or cmd.endswith('کرده است؟') or cmd.endswith('بلده؟'):
+            bot.sendMessage(chat_id, "".join(BeautifulSoup(ask).findAll(text=True)), reply_to_message_id=msg_id)
+
+         if cmd=='!report' and from_msg_id is not None:
+            bot.forwardMessage("451182363", chat_id,from_msg_id)
             bot.deleteMessage((chat_id, msg_id))
 
 
